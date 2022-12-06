@@ -18,13 +18,13 @@ steps:
   displayName: 'npm install and test'
 
 - script: |
-    wget https://github.com/github/codeql-action/releases/latest/download/codeql-runner-linux
-    chmod +x codeql-runner-linux
-  displayName: 'Get latest CodeQL package. Install on Agent.'
+   wget https://github.com/github/codeql-action/releases/latest/download/codeql-runner-linux
+   chmod +x codeql-runner-linux
+ displayName: 'Get latest CodeQL package. Install on Agent.'
 
 - script: |
     ./codeql-runner-linux init \
-    --repository n3wt0n/ScanGHfromAzDO \
+    --repository pghodki/ScanGHfromAzDO \
     --github-url https://github.com \
     --github-auth $(GITHUB_PAT) \
     --config-file .github/codeql/codeql-config.yml 
@@ -32,7 +32,7 @@ steps:
   
 - script: |
     ./codeql-runner-linux analyze \
-    --repository n3wt0n/ScanGHfromAzDO \
+    --repository pghodki/ScanGHfromAzDO \
     --github-url https://github.com \
     --github-auth $(GITHUB_PAT) \
     --commit $(Build.SourceVersion) \
