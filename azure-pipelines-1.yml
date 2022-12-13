@@ -23,7 +23,7 @@ steps:
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
     projectName: 'pghodki/ScanGHfromAzDO'
-
+# instead of public repo we can use vetted private repo/artifactory location
 - script: |
     wget https://github.com/github/codeql-action/releases/latest/download/codeql-runner-linux
         chmod +x codeql-runner-linux
