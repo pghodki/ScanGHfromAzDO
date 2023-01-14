@@ -9,7 +9,6 @@ trigger:
 pool:
 name: local
 
-
 steps:
 - task: NodeTool@0
   inputs:
