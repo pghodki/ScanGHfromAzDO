@@ -49,7 +49,7 @@ steps:
 - task: owaspzap@1
   inputs:
     scantype: 'targetedScan'
-    url: 'https://github.com/pghodki/ScanGHfromAzDO.git'
+    url: 'https://dotnetthoughts.net'
   displayName: "OWASP ZAP scanner task"
 
 - task: PublishBuildArtifacts@1
