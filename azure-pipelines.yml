@@ -33,7 +33,7 @@ steps:
     ./codeql-runner-linux init \
     --repository pghodki/ScanGHfromAzDO \
     --github-url https://github.com \
-    --github-auth $(GITHUB_PAT) \
+    --github-auth $(GITHUB_TOKEN) \
     --config-file .github/codeql/codeql-config.yml 
   displayName: 'Initialize CodeQL Executable and create a CodeQL database'
   
