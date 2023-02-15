@@ -50,6 +50,7 @@ steps:
   inputs:
     scantype: 'targetedScan'
     url: 'https://dotnetthoughts.net'
+    port: '443'
   displayName: "OWASP ZAP scanner task"
 
 - task: PublishBuildArtifacts@1
