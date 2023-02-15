@@ -53,9 +53,14 @@ steps:
     port: '443'
   displayName: "OWASP ZAP scanner task"
 
+# Date-15-feb-2023-start-added copyfile task
+- task: CopyFiles@2
+  inputs:
+    targetFolder: '$(Build.ArtifactStagingDirectory)'    
+# Date-15-feb-2023-end
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/artifact'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'ZAP Reports'
 
 - bash: |
