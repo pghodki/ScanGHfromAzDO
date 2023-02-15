@@ -46,22 +46,18 @@ steps:
     --ref $(Build.SourceBranch)
   displayName: 'Populate the CodeQL runner databases, analyze them, and upload the results to GitHub.'
 
-- task: owaspzap@1
-  inputs:
-    scantype: 'targetedScan'
-    url: 'https://dotnetthoughts.net'
-    port: '443'
-  displayName: "OWASP ZAP scanner task"
+- script: |
+      wget https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2.11.1_Linux.tar.gz
+      mkdir zap
+      tar -xvf ZAP_2.11.1_Linux.tar.gz
+      cd ZAP_2.11.1
+      ./zap.sh -cmd -quickurl https://example.com -quickprogress -quickout /home/vsts/work/1/a/zap_report.html
+  displayName: "Integrate DAST using OWASP ZAP"
 
-# Date-15-feb-2023-start-added copyfile task
-- task: CopyFiles@2
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'    
-# Date-15-feb-2023-end
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'ZAP Reports'
+    ArtifactName: zap_report.html
 
 - bash: |
    sudo npm install -g handlebars-cmd
