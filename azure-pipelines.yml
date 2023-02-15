@@ -46,85 +46,16 @@ steps:
     --ref $(Build.SourceBranch)
   displayName: 'Populate the CodeQL runner databases, analyze them, and upload the results to GitHub.'
 
-- task: owaspzap@1
-  inputs:
-    scantype: 'targetedScan'
-    url: 'https://dotnetthoughts.net'
-    port: '443'
-  displayName: "OWASP ZAP scanner task"
+- script: | 
+      wget https://github.com/zapproxy/zapproxy/releases/download/v2.11.1/ZAP_2.11.1_Linux.tar.gz
+      mkdir zap
+      tar -xvf ZAP_2.11.1_Linux.tar.gz
+      cd ZAP_2.11.1
+      ./zap.sh -cmd -quickurl https://www.example.com -quickprogress -quickout /home/vsts/work/1/a/zap_report.html
+  displayName: "Integrate DAST using OWASP ZAP in ADO DevSecOps Pipeline"    
 
-# Date-15-feb-2023-start-added copyfile task
-- task: CopyFiles@2
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'    
-# Date-15-feb-2023-end
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'ZAP Reports'
+    ArtifactName: zap_report.html
 
-- bash: |
-   sudo npm install -g handlebars-cmd
-
-   cat <<EOF > owaspzap/nunit-template.hbs
-   {{#each site}}
-
-   <test-run
-       id="2"
-       name="Owasp test"
-       start-time="{{../[@generated]}}"  >
-       <test-suite
-           id="{{@index}}"
-           type="Assembly"
-           name="{{[@name]}}"
-           result="Failed"
-           failed="{{alerts.length}}">
-           <attachments>
-               <attachment>
-                   <filePath>owaspzap/report.html</filePath>
-               </attachment>
-           </attachments>
-       {{#each alerts}}<test-case
-           id="{{@index}}"
-           name="{{alert}}"
-           result="Failed"
-           fullname="{{alert}}"
-           time="1">
-               <failure>
-                   <message>
-                       <![CDATA[{{{desc}}}]]>
-                   </message>
-                   <stack-trace>
-                       <![CDATA[
-   Solution:
-   {{{solution}}}
-
-   Reference:
-   {{{reference}}}
-
-   instances:{{#each instances}}
-   * {{uri}}
-       - {{method}}
-       {{#if evidence}}- {{{evidence}}}{{/if}}
-                       {{/each}}]]>
-                   </stack-trace>
-               </failure>
-       </test-case>
-       {{/each}}
-       </test-suite>
-   </test-run>
-   {{/each}}
-   EOF
-  displayName: 'owasp nunit template'
-  condition: always()
-
-- bash: ' handlebars owaspzap/report.json < owaspzap/nunit-template.hbs > owaspzap/test-results.xml'
-  displayName: 'generate nunit type file'
-  condition: always()
-
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results **/TEST-*.xml'
-  inputs:
-    testResultsFormat: NUnit
-    testResultsFiles: 'owaspzap/test-results.xml'
-  condition: always()
