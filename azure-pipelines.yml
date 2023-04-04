@@ -19,10 +19,13 @@ steps:
      npm install
   displayName: 'npm install and test'
 
+#SCA using whitesource start######
 - task: WhiteSource@21
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
     projectName: 'pghodki/ScanGHfromAzDO'
+# SCA using whitesource end######
+
 # instead of public repo we can use vetted private repo/artifactory location
 - script: |
       wget https://github.com/github/codeql-action/releases/download/codeql-bundle-20200826/codeql-runner-linux
