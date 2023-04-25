@@ -1,7 +1,6 @@
 # Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+
 
 trigger:
 - master
@@ -26,6 +25,7 @@ steps:
     projectName: 'pghodki/ScanGHfromAzDO'
 # SCA using whitesource end######
 
+##SAST using CodeQL start######
 # instead of public repo we can use vetted private repo/artifactory location
 - script: |
       wget https://github.com/github/codeql-action/releases/download/codeql-bundle-20200826/codeql-runner-linux
@@ -49,6 +49,10 @@ steps:
     --ref $(Build.SourceBranch)
   displayName: 'Populate the CodeQL runner databases, analyze them, and upload the results to GitHub.'
 
+##SAST using CodeQL end######
+
+##DAST using OWASP ZAP start######
+
 - script: |
       wget https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2.11.1_Linux.tar.gz
       mkdir zap
@@ -62,3 +66,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: zap_report.html
 
+##DAST using OWASP ZAP end######
