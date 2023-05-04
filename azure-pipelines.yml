@@ -1,6 +1,6 @@
 # Starter pipeline
 # Add steps that build, run tests, deploy, and more:
-# DevSecOps Demo on 04-May-2023
+# DevSecOps pipeline- Demo on 04-May-2023
 
 trigger:
 - master
