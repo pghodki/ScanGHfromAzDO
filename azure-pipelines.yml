@@ -1,6 +1,6 @@
 # Starter pipeline
 # Add steps that build, run tests, deploy, and more:
-# DevSecOps Demo on 03-May-2023
+# DevSecOps Demo on 04-May-2023
 
 trigger:
 - master
@@ -58,7 +58,7 @@ steps:
       mkdir zap
       tar -xvf ZAP_2.11.1_Linux.tar.gz
       cd ZAP_2.11.1
-      ./zap.sh -cmd -quickurl https://example.com -quickprogress -quickout /home/vsts/work/1/a/zap_report.pdf
+      ./zap.sh -cmd -quickurl https://example.com -quickprogress -quickout /home/vsts/work/1/a/zap_report.html
   displayName: "Integrate DAST using OWASP ZAP"
 
 - task: PublishBuildArtifacts@1
